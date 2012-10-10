@@ -110,6 +110,7 @@ char* calculateOperationSequence(int * originalArray, int * resultArray, int len
   int stack[length + 1];
   int operationStack[length * 2 + 1];
   
+  // Too many while circle, could just use one.
   while (h1 < length) {
     int num = resultArray[h2];
     
