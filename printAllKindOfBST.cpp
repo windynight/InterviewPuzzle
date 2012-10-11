@@ -35,18 +35,27 @@ void printTree(Node * root)
   }
 }
 
-int nodeNumbers(Node *node)
+int nodeNumbers(Node *node, int * flag)
 {
   if (!node) {
     return 0;
   }
   
-  return 1 + nodeNumbers(node->left) + nodeNumbers(node->right);
+  if (flag[node->value]) {
+    return 0;
+  }
+  
+  flag[node->value] = 1;
+  
+  return 1 + nodeNumbers(node->left, flag) + nodeNumbers(node->right, flag);
 }
 
 bool isTreeCompleted(Node *node, int length)
 {
-  int count = nodeNumbers(node);
+  int flag[length + 1];
+  memset(flag, 0, sizeof(flag));
+  
+  int count = nodeNumbers(node, flag);
   
   return count == length;
 }
@@ -103,38 +112,61 @@ bool createTree(int subRoot, int left, int right, Node * array, int length, int 
     return false;
   }
   
-  //create left sub tree
-  for (int i = left; i < subRoot; i ++) {
-    bool flag = false;
-    
-    subRootNode->left = &array[i];
-    
-    //create right sub tree
-    for (int j = subRoot + 1; j <= right; j ++) {
+  if (subRoot - left <= right - subRoot) {
+    for (int i = left; i < subRoot; i ++) {
+      bool flag = false;
       
-      subRootNode->right = &array[j]; 
-      if (createTree(i, left, subRoot - 1, array, length, treeCount, root)) {
-        flag = true;
-      }
+      subRootNode->left = &array[i];
       
-      if (flag) {
-        subRootNode->left = NULL;
-      }
-      
-      if(createTree(j, subRoot + 1, right, array, length, treeCount, root)) {
-        flag = true;
-      }
-      
-      if (flag) {
-        subRootNode->left = NULL;
-        subRootNode->right = NULL;
+      for (int j = subRoot + 1; j <= right; j ++) {
+        
+        subRootNode->right = &array[j]; 
+        if (createTree(i, left, subRoot - 1, array, length, treeCount, root)) {
+          flag = true;
+        }
+        
+        if (flag) {
+          subRootNode->left = NULL;
+        }
+        
+        if(createTree(j, subRoot + 1, right, array, length, treeCount, root)) {
+          flag = true;
+        }
+        
+        if (flag) {
+          subRootNode->right = NULL;
+          subRootNode->left = NULL;
+        }
       }
     }
-    
-//    if (flag) {
-//      subRootNode->left = NULL;
-//      subRootNode->right = NULL;
-//    }
+  } else {
+    for (int i = subRoot + 1; i <= right; i ++) {
+      bool flag = false;
+      
+      subRootNode->right = &array[i];
+      
+      for (int j = left; j < subRoot; j ++) {
+        
+        subRootNode->left = &array[j]; 
+        
+        if (createTree(i, subRoot + 1, right, array, length, treeCount, root)) {
+          flag = true;
+        }
+        
+        if (flag) {
+          subRootNode->right = NULL;
+        }
+        
+        if(createTree(j, left, subRoot - 1, array, length, treeCount, root)) {
+          flag = true;
+        }
+        
+        if (flag) {
+          subRootNode->left = NULL;
+          subRootNode->right = NULL;
+        }
+      }
+    }
   }
 
   return false;
