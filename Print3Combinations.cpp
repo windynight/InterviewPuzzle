@@ -1,3 +1,20 @@
+/*
+ 
+ give an array of n elements and an int sum,
+ print all combinations of three elements from the array,
+ whose sumup is key.
+ 
+Input:
+ [5, 3, 2, 8, 9, 7, 0]  10
+ 
+Output:
+ 
+ 5 3 2
+ 2 8 0
+ 3 7 0
+ 
+ */
+
 #include <string>
 #include <vector>
 #include <list>
@@ -21,6 +38,7 @@ using namespace std;
 
 void print3Combinations(int arr [], int size, int sum)
 {
+  // sort before searching to optimize the algorithm
   sort(arr, arr + size);
   
   if (sum < arr[0]) {
