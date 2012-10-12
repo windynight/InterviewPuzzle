@@ -27,6 +27,7 @@ void searchAndPrint(int currentLine, int line, Node* root)
   if (line == currentLine)
   {
     cout << root->data << ' ';
+    return;
   }
   
   if (root == NULL)
