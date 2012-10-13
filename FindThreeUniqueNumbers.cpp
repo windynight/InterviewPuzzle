@@ -46,11 +46,6 @@ void sortArray(int &len, int begin[], int end[], int bit)
   
 }
 
-bool hasEvenNumbers(int length)
-{
-  return length % 2 == 0;
-}
-
 int sumOfElements(int begin[], int end[])
 {
   int s = 0;
@@ -61,72 +56,32 @@ int sumOfElements(int begin[], int end[])
   return s;
 }
 
-void findOneUnique(int begin[], int end[], int &result)
-{  
-  result = 0;
-  
-  while (begin != end) {
-    result = result ^ *begin;
-    begin ++;
-  }
-  
-}
-
-void findTwoUnique(int begin[], int end[], int s, int singles [])
-{
-  int cmp = 0;
-  int len = end - begin;
-
-  while (!(s & 1)) {
-    cmp ++;
-    s >>= 1;
-  }
-  
-  cmp = 1 << cmp;
-  
-  for (int i = 0; i < len; ) {
-    if (*(begin + i)  & cmp) {
-      swap(*(begin + i), *(begin + len - 1));
-      len --;
-    } else {
-      i ++;
-    }
-  }
-  
-  findOneUnique(begin, begin + len, singles[0]);
-  findOneUnique(begin + len, end, singles[1]);
-}
-
 void findThreeUnique(int begin[], int end[], int singles[])
 {  
+  
   for (int bit = 0; bit < 32; bit ++) {
     int len;
+    int length = end - begin;
     sortArray(len, begin, end, bit);
     
     int s1 = sumOfElements(begin, begin + len);
     int s2 = sumOfElements(begin + len, end);
     
-    int count = s1 ? 1 : 0;
-    count = s2 ? count + 1 : count;
-    
-    if (count == 1) {
-      if (s1) {
-        return findThreeUnique(begin, begin + len, singles);
-      } else if (s2) {
-        return findThreeUnique(begin, end - len, singles);
-      }
-      
-    } else {
-      if (!hasEvenNumbers(len)) {
+    if (len % 2 == 1 && (length - len) % 2 == 0) {
+      if (s2 > 0) {
         singles[0] = s1;
-        return findTwoUnique(begin + len, end, s2, singles + 1);
-      } else {
-        singles[0] = s2;
-        return findTwoUnique(begin, begin + len, s1, singles + 1);
       }
-      
+      begin += len;
+    } else if (len % 2 == 0 && (length - len) % 2 == 1) {
+      if (s1 > 0) {
+        singles[0] = s2;
+      }
+      end = begin + len;
+    } else if (len % 2 == 1 && (length - len) % 2 == 1) {
+      singles[1] = s1;
+      singles[2] = s2;
+      return;
     }
-    
   }
 }
 
@@ -141,7 +96,7 @@ int main()
     cout << singles[i] << ' ';
   }
   cout << endl;
-    
+  
   return 0;
 }
 
