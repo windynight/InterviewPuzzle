@@ -14,7 +14,6 @@
 
 using namespace std;
 
-
 /*
  sort the array into three piles,
  pile 1: the bit is 0, len l1
@@ -56,6 +55,11 @@ int sumOfElements(int begin[], int end[])
   return s;
 }
 
+/*
+ In each partition, there are three situation:
+ 1. one has even numbers, the other has odd numbers, could get singles[0]
+ 2. two partitions both have odd numbers, could get singles[1] and singles[2], problem solved
+ */
 void findThreeUnique(int begin[], int end[], int singles[])
 {  
   
