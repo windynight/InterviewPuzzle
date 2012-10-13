@@ -20,18 +20,18 @@ using namespace std;
  pile 1: the bit is 0, len l1
  pile 2: the bit is 1, len l2
  */
-void sortArray(int &l1, int begin[], int end[], int bit)
+void sortArray(int &len, int begin[], int end[], int bit)
 {
   int cmp = 1 << bit;
-  l1 = end - begin;
+  len = end - begin;
   
-  for (int i = 0; i < l1; ) {
+  for (int i = 0; i < len; ) {
     int tmp = *(begin + i);
     
     if (*(begin + i) & cmp) {
-      *(begin + i) = *(begin + l1 - 1);
-      *(begin + l1 - 1) = tmp;
-      l1 --;
+      *(begin + i) = *(begin + len - 1);
+      *(begin + len - 1) = tmp;
+      len --;
     } else {
       i ++;
     }
@@ -75,7 +75,7 @@ void findOneUnique(int begin[], int end[], int &result)
 void findTwoUnique(int begin[], int end[], int s, int singles [])
 {
   int cmp = 0;
-  int l1 = end - begin;
+  int len = end - begin;
 
   while (!(s & 1)) {
     cmp ++;
@@ -84,45 +84,45 @@ void findTwoUnique(int begin[], int end[], int s, int singles [])
   
   cmp = 1 << cmp;
   
-  for (int i = 0; i < l1; ) {
+  for (int i = 0; i < len; ) {
     if (*(begin + i)  & cmp) {
-      swap(*(begin + i), *(begin + l1 - 1));
-      l1 --;
+      swap(*(begin + i), *(begin + len - 1));
+      len --;
     } else {
       i ++;
     }
   }
   
-  findOneUnique(begin, begin + l1, singles[0]);
-  findOneUnique(begin + l1, end, singles[1]);
+  findOneUnique(begin, begin + len, singles[0]);
+  findOneUnique(begin + len, end, singles[1]);
 }
 
 void findThreeUnique(int begin[], int end[], int singles[])
 {  
   for (int bit = 0; bit < 32; bit ++) {
-    int l1;
-    sortArray(l1, begin, end, bit);
+    int len;
+    sortArray(len, begin, end, bit);
     
-    int result1 = sumOfElements(begin, begin + l1);
-    int result2 = sumOfElements(begin + l1, end);
+    int s1 = sumOfElements(begin, begin + len);
+    int s2 = sumOfElements(begin + len, end);
     
-    int count = result1 ? 1 : 0;
-    count = result2 ? count + 1 : count;
+    int count = s1 ? 1 : 0;
+    count = s2 ? count + 1 : count;
     
     if (count == 1) {
-      if (result1) {
-        return findThreeUnique(begin, begin + l1, singles);
-      } else if (result2) {
-        return findThreeUnique(begin, end - l1, singles);
+      if (s1) {
+        return findThreeUnique(begin, begin + len, singles);
+      } else if (s2) {
+        return findThreeUnique(begin, end - len, singles);
       }
       
     } else {
-      if (!hasEvenNumbers(l1)) {
-        singles[0] = result1;
-        return findTwoUnique(begin + l1, end, result2, singles + 1);
+      if (!hasEvenNumbers(len)) {
+        singles[0] = s1;
+        return findTwoUnique(begin + len, end, s2, singles + 1);
       } else {
-        singles[0] = result2;
-        return findTwoUnique(begin, begin + l1, result1, singles + 1);
+        singles[0] = s2;
+        return findTwoUnique(begin, begin + len, s1, singles + 1);
       }
       
     }
