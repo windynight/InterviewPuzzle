@@ -29,12 +29,28 @@ void sendAllUpperCaseCharactersToBack(string & a)
   }
 }
 
+void sortString(string &a)
+{
+  string up = "";
+  string low = "";
+  
+  for (int i = 0; i < a.length(); i ++) {
+    if (isUpperCase(a[i])) {
+      up += a[i];
+    } else {
+      low += a[i];
+    }
+  }
+  
+  a = low + up;
+}
+
 int main()
 {
   string a = "aasasdfaSAsfvsaDFASASDasfsaAS";
   
   while (1) {
-    sendAllUpperCaseCharactersToBack(a);
+    sortString(a);
     cout << a << endl;
     cin >> a;
   }
