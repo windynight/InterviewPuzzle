@@ -68,6 +68,7 @@ bool binarySearchTheMatrix(int ** arr, int l, int r, int t, int b, int key)
       return binarySearchTheMatrix(arr, mid1, mid1, t, mid2 - 1, key)
       || binarySearchTheMatrix(arr, mid1 + 1, r, mid2, mid2, key)
       || binarySearchTheMatrix(arr, mid1, mid1, mid2 + 1, b, key)
+      
       || binarySearchTheMatrix(arr, mid1 + 1, r, t, mid2 - 1, key)
       || binarySearchTheMatrix(arr, mid1 + 1, r, mid2 + 1, b, key)
       || binarySearchTheMatrix(arr, l, mid1 - 1, mid2 + 1, b, key);
