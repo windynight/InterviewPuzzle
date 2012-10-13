@@ -20,22 +20,29 @@ using namespace std;
  pile 1: the bit is 0, len l1
  pile 2: the bit is 1, len l2
  */
-void sortArray(int &l1, int a[], int begin, int length, int bit)
+void sortArray(int &l1, int begin[], int end[], int bit)
 {
   int cmp = 1 << bit;
-  l1 = length;
+  l1 = end - begin;
   
-  for (int i = begin; i < begin + l1; ) {
-    int tmp = a[i];
+  for (int i = 0; i < l1; ) {
+    int tmp = *(begin + i);
     
-    if (a[i] & cmp) {
-      a[i] = a[l1 - 1];
-      a[l1 - 1] = tmp;
+    if (*(begin + i) & cmp) {
+      *(begin + i) = *(begin + l1 - 1);
+      *(begin + l1 - 1) = tmp;
       l1 --;
     } else {
       i ++;
     }
   }
+  
+  while (begin != end) {
+    cout << *begin << ' ';
+    begin ++;
+  }
+  
+  cout << endl;
   
 }
 
@@ -54,68 +61,68 @@ int sumOfElements(int begin[], int end[])
   return s;
 }
 
-void findOneUnique(int a[], int begin, int length, int &result)
+void findOneUnique(int begin[], int end[], int &result)
 {  
   result = 0;
-  for (int i = begin; i < begin + length; i ++) {
-    result = result ^ a[i];
+  
+  while (begin != end) {
+    result = result ^ *begin;
+    begin ++;
   }
+  
 }
 
-void findTwoUnique(int a[], int begin, int length, int s, int singles [])
+void findTwoUnique(int begin[], int end[], int s, int singles [])
 {
   int cmp = 0;
-  while (s) {
-    if (s & 1) {
-      break;
-    }
-    
+  int l1 = end - begin;
+
+  while (!(s & 1)) {
     cmp ++;
     s >>= 1;
   }
   
   cmp = 1 << cmp;
   
-  int l1 = length;
-  for (int i = begin; i < l1; ) {
-    if (a[i] & cmp) {
-      swap(a[i], a[l1 - 1]);
+  for (int i = 0; i < l1; ) {
+    if (*(begin + i)  & cmp) {
+      swap(*(begin + i), *(begin + l1 - 1));
       l1 --;
     } else {
       i ++;
     }
   }
   
-  findOneUnique(a, 0, l1, singles[0]);
-  findOneUnique(a, l1, length - l1, singles[1]);
+  findOneUnique(begin, begin + l1, singles[0]);
+  findOneUnique(begin + l1, end, singles[1]);
 }
 
-void findThreeUnique(int a[], int begin, int length, int singles[])
+void findThreeUnique(int begin[], int end[], int singles[])
 {  
   for (int bit = 0; bit < 32; bit ++) {
     int l1;
-    sortArray(l1, a, begin, length, bit);
+    sortArray(l1, begin, end, bit);
     
-    int result1 = sumOfElements(a, a + l1);
-    int result2 = sumOfElements(a + l1, a + length - l1);
+    int result1 = sumOfElements(begin, begin + l1);
+    int result2 = sumOfElements(begin + l1, end);
     
     int count = result1 ? 1 : 0;
     count = result2 ? count + 1 : count;
     
     if (count == 1) {
       if (result1) {
-        return findThreeUnique(a, 0, l1, singles);
+        return findThreeUnique(begin, begin + l1, singles);
       } else if (result2) {
-        return findThreeUnique(a, l1, length - l1, singles);
+        return findThreeUnique(begin, end - l1, singles);
       }
       
     } else {
       if (!hasEvenNumbers(l1)) {
         singles[0] = result1;
-        return findTwoUnique(a, l1, length - l1, result2, singles + 1);
+        return findTwoUnique(begin + l1, end, result2, singles + 1);
       } else {
         singles[0] = result2;
-        return findTwoUnique(a, 0, l1, result1, singles + 1);
+        return findTwoUnique(begin, begin + l1, result1, singles + 1);
       }
       
     }
@@ -128,7 +135,7 @@ int main()
   int a[9] = {10, 9, 8, 7, 6, 5, 5, 6, 7};
   
   int singles[3];
-  findThreeUnique(a, 0, 9, singles);
+  findThreeUnique(a, a + 9, singles);
   
   for (int i = 0; i < 3; i ++) {
     cout << singles[i] << ' ';
