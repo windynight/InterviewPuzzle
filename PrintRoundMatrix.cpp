@@ -20,6 +20,11 @@
  2. Given index i and j, calculate the value of matrix[i][j]
  3. Given a number from 1 through n * n, calculate the position i and j for number in matrix[n][n]
  
+ 
+ Unit Tests:
+ 0
+ 1
+ 100000
  */
 
 #include <iostream>
@@ -30,6 +35,11 @@ using namespace std;
 
 void printMatrix(int ** matrix, int n)
 {
+  if (n > 1000) {
+    cout << "Out of bounds, the n is too large" << endl;
+    return;
+  }
+  
   for (int i = 0; i < n; i ++) {
     for (int j = 0; j < n; j ++) {
       cout << '\t' << matrix[i][j];
@@ -155,6 +165,11 @@ void cal(int & i, int & j, int num, int n)
 
 void printRoundMatrix3(int n)
 {
+  if (n > 1000) {
+    cout << "Out of bounds, the n is too large" << endl;
+    return;
+  }
+  
   int **matrix = new int * [n];
   for (int i = 0; i < n; i ++) {
     matrix[i] = new int[n];
@@ -174,7 +189,11 @@ void printRoundMatrix3(int n)
 int main()
 {
   int n;
-  while (cin >> n && n) {
+  
+  while (cin >> n) {
+    if (n == 0) {
+      continue;
+    }
     printRoundMatrix1(n);
     printRoundMatrix2(n);
     printRoundMatrix3(n);
