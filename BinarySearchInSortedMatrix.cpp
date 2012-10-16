@@ -18,6 +18,12 @@
  6 7 65 98 100 112 120
  7 8 91 101 112 121 131
  
+ 
+ Another Answer:
+ Assumptions:
+ » Rows are sorted left to right in ascending order Columns are sorted top to bottom in ascending order
+ » Matrix is of size MxN
+ The start point (0, N-1), each compare can decide the point to move down (row - 1) or move left (col - 1).
  */
 
 #include <iostream>
@@ -78,12 +84,35 @@ bool binarySearchTheMatrix(int ** arr, int l, int r, int t, int b, int key)
   return false;
 }
 
+/*
+
+ This algorithm works by elimination Every move to the left (--col) eliminates all the elements below the current cell in that column Likewise, every move down eliminates all the elements to the left of the cell in that row
+ 
+ The start point (0, N-1), each compare can decide the point to move down (row - 1) or move left (col - 1)
+ 
+ */
+bool findElem(int ** mat, int elem, int M, int N)
+{ 
+  int row = 0;
+  int col = N-1;
+  while (row < M && col >= 0) {
+    if (mat[row][col] == elem) {
+      return true;
+    } else if (mat[row][col] > elem) {
+      col--;
+    } else {
+      row++;
+    }
+  }
+  return false; 
+}
+
 int main()
 {
   int n, m;
   cin >> n >> m;
   int **arr = new int * [n];
-
+  
   for (int i = 0; i < n; i ++) {
     arr[i] = new int[n];
     for (int j = 0; j < n; j ++) {
@@ -92,7 +121,8 @@ int main()
   }
   
   cout << (binarySearchTheMatrix(arr, 0, n - 1, 0, n - 1, m) ? "YES" : "NO") << endl;
-  
+  cout << (findElem(arr, m, n, n) ? "YES" : "NO") << endl;
+
   return 0;
 }
 
