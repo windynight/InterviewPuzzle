@@ -48,6 +48,11 @@ void printMatrix(int ** matrix, int n)
   }
   
   cout << endl;
+  
+  for (int i = 0; i < n; i ++) {
+    delete matrix[i];
+  }
+  delete matrix;
 }
 
 void printRoundMatrix1(int n)
