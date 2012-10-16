@@ -27,8 +27,55 @@
  */
 
 #include <iostream>
+#include <cstdlib>
+#include <sys/time.h>
 
 using namespace std;
+
+
+class Timer
+{
+  timeval timer[2];
+  
+public:
+  
+  timeval start() {
+    gettimeofday(&this->timer[0], NULL);
+    return this->timer[0];
+  }
+  
+  timeval stop() {
+    gettimeofday(&this->timer[1], NULL);
+    return this->timer[1];
+  }
+  
+  int duration() const {
+    int secs(this->timer[1].tv_sec - this->timer[0].tv_sec);
+    int usecs(this->timer[1].tv_usec - this->timer[0].tv_usec);
+    
+    if(usecs < 0) {
+      --secs;
+      usecs += 1000000;
+    }
+    
+    return static_cast<int>(secs * 1000 + usecs / 1000.0 + 0.5);
+  }
+};
+
+
+// Get current date/time, format is YYYY-MM-DD.HH:mm:ss
+const std::string currentDateTime() {
+  time_t     now = time(0);
+  struct tm  tstruct;
+  char       buf[80];
+  tstruct = *localtime(&now);
+  // Visit http://www.cplusplus.com/reference/clibrary/ctime/strftime/
+  // for more information about date/time format
+  strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
+  
+  return buf;
+}
+
 
 bool binarySearchTheMatrix(int ** arr, int l, int r, int t, int b, int key)
 {
@@ -120,10 +167,24 @@ int main()
     }
   }
   
-  cout << (binarySearchTheMatrix(arr, 0, n - 1, 0, n - 1, m) ? "YES" : "NO") << endl;
-  cout << (findElem(arr, m, n, n) ? "YES" : "NO") << endl;
+  Timer tm;
+  
+  tm.start();
+  for (int i = 0; i < 1000000; i ++) {
+    cout << (binarySearchTheMatrix(arr, 0, n - 1, 0, n - 1, m) ? "" : "NO");
+  }
+  tm.stop();
+  cout << "duration -> " << tm.duration() << "ms" << endl;
+
+  tm.start();
+  for (int i = 0; i < 1000000; i ++) {
+    cout << (findElem(arr, m, n, n) ? "" : "NO");
+  }
+  tm.stop();
+  cout << "duration -> " << tm.duration() << "ms" << endl;
 
   return 0;
 }
+
 
 
