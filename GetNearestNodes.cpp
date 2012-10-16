@@ -1,3 +1,24 @@
+/*
+ 
+ Give a Binary Search Tree, and key, m
+ Find m nodes whose data is nearest key. ( minimal abs(node->data - key) )
+
+ Sample Input: 
+ 10 4
+ 
+ Sample Output:
+ 10 13 7 16
+ 
+ Hint:
+ 1. Find the pivot whose value is nearest key (less than, equal, or greater than)
+ 2. Find m-1 nodes whose value is less than pivot, whose value is ordered ascending
+ 3. Find m-1 nodes whose value is greater than pivot, whose value is ordered asceding
+ 4. Print the m nodes
+ 
+ Running time complexity: O(m * logn)
+ Space complexity: O(m)
+ */
+
 #include <iostream>
 
 using namespace std;
@@ -110,7 +131,7 @@ void findNearest(Node *root, int key, int m)
   }
 
   int count = 0;
-  int arr[2 * m][2];
+  int arr[2 * m][2];  //arr[i][0] = node->data, arr[i][1] = abs(node->data - key)
   bool isPreviousPivot = true;
   int middle = 0;
   Node *tmpPivot;
@@ -195,7 +216,7 @@ int main()
 {
   Node *root = NULL;
   
-  int len = 100;
+  int len = 1000;
   for (int i = len / 2 + 1; i < len; i += 3) {
     root = insertNode(root, i);
     root = insertNode(root, len - i);
