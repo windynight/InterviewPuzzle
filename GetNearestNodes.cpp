@@ -16,7 +16,7 @@
  4. Print the m nodes
  
  Running time complexity: O(m * logn)
- Space complexity: O(m)
+ Extra space complexity: O(m)
  */
 
 #include <iostream>
@@ -136,7 +136,7 @@ void findNearest(Node *root, int key, int m)
   int middle = 0;
   Node *tmpPivot;
 
-  //Pivot is the node whose data is nearest of the given key
+  //Pivot is the node whose data is the nearest value of the given key
   Node *pivot = getPrevious(root, key);
   if (pivot == NULL) {
     pivot = getNext(root, key);
