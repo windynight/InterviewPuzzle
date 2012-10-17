@@ -12,10 +12,19 @@
  index 5 : 6
  
  Test Case 0:
+ 
  1 0
  8
  1 8
  3
+ 2 5
+ 4 5
+ 2 4
+ 4 5
+ 3 7
+ 6 7 8
+ 3 7
+ 6 8 9
  10 7
  1 2 3 4 5 6 7 8 9 10
  9 7
@@ -26,8 +35,13 @@
  1 2 3 4 5 6 7 8 9 10
  
  Output:
+ 
  None
  Index 0 : 3
+ Index 0 : 4
+ None
+ Index 0 : 6
+ Index 0 : 6
  Index 5 : 6
  Index 5 : 6
  Index 9 : 10
@@ -42,6 +56,7 @@ void findMaximalIndexLessThanX(int a[], int n, int x)
 {
   int l = 0, r = n - 1, mid = 0;
   
+  //Binary Search
   while (l <= r) {
     mid = (l + r) >> 1;
     
