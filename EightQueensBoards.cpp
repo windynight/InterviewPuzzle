@@ -25,10 +25,11 @@ void printBoard(int rowOfQueens[])
   }
 }
 
+// Check if the current row is used already or not valid for the placed queens
 bool isInvalid(int currentQueen, int row, int rowOfQueens[])
 {
   for (int i = 1; i < currentQueen; i ++) {
-    if (rowOfQueens[i] == row
+    if (rowOfQueens[i] == row  
         || abs(rowOfQueens[i] - row) == abs(i - currentQueen)) {
       return true;
     }
@@ -50,7 +51,7 @@ void placeQueen(int currentQueen, int rowOfQueens[], int & count)
     bool flag = false;
     for (int i = 1; i < currentQueen; i ++) {
       if (isInvalid(currentQueen, row, rowOfQueens)) {
-        flag = true; // the current row is used already
+        flag = true; 
         break;
       }
     }
@@ -58,7 +59,6 @@ void placeQueen(int currentQueen, int rowOfQueens[], int & count)
     if (!flag) {
       rowOfQueens[currentQueen] = row;
       placeQueen(currentQueen + 1, rowOfQueens, count);
-      rowOfQueens[currentQueen] = 0;
     }
   }
 }
