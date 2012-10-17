@@ -13,9 +13,10 @@ using namespace std;
 
 void printBoard(int rowOfQueens[])
 {
-  for (int i = 1; i <= 8; i ++) {
-    for (int j = 1; j <= 8; j ++) {
-      if (rowOfQueens[j] == i) {
+  for (int row = 1; row <= 8; row ++) {
+    for (int col = 1; col <= 8; col ++) {
+      // col is also the queen's index
+      if (rowOfQueens[col] == row) {
         cout << " *";
       } else {
         cout << " o";
