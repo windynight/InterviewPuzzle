@@ -58,7 +58,7 @@ void findMaximalIndexLessThanX(int a[], int n, int x)
 {
   int l = 0, r = n - 1, mid = 0;
   
-  //Binary Search, the loop ends with l > r, a[l] >> x
+  //Binary Search, the loop ends with l > r, a[l] >= x
   while (l <= r) {
     mid = (l + r) >> 1;
     
