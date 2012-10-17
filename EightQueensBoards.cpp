@@ -37,7 +37,7 @@ bool isInvalid(int currentQueen, int row, int rowOfQueens[])
   return false;
 }
 
-void eightQueens(int currentQueen, int rowOfQueens[], int & count)
+void placeQueen(int currentQueen, int rowOfQueens[], int & count)
 {
   if (currentQueen > 8) {
     cout << ++count << ":" << endl;
@@ -57,7 +57,7 @@ void eightQueens(int currentQueen, int rowOfQueens[], int & count)
     
     if (!flag) {
       rowOfQueens[currentQueen] = row;
-      eightQueens(currentQueen + 1, rowOfQueens, count);
+      placeQueen(currentQueen + 1, rowOfQueens, count);
       rowOfQueens[currentQueen] = 0;
     }
   }
@@ -68,7 +68,7 @@ int main()
   int rowOfQueens[9];
   int count = 0;
   memset(rowOfQueens, 0, sizeof(rowOfQueens));
-  eightQueens(1, rowOfQueens, count);
+  placeQueen(1, rowOfQueens, count);
   
   return 0;
 }
