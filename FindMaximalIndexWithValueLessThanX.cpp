@@ -11,6 +11,9 @@
  Sample Output:
  index 5 : 6
  
+ Hint:
+ Give a algorithm with O(logn) time complexity and O(1) extra space complexity.
+ 
  Test Case 0:
  
  1 0
@@ -35,7 +38,6 @@
  1 2 3 4 5 6 7 8 9 10
  
  Output:
- 
  None
  Index 0 : 3
  Index 0 : 4
@@ -56,7 +58,7 @@ void findMaximalIndexLessThanX(int a[], int n, int x)
 {
   int l = 0, r = n - 1, mid = 0;
   
-  //Binary Search
+  //Binary Search, the loop ends with l > r, a[l] >> x
   while (l <= r) {
     mid = (l + r) >> 1;
     
@@ -66,7 +68,7 @@ void findMaximalIndexLessThanX(int a[], int n, int x)
       l = mid + 1;
     }
   }
-  
+    
   if (l == 0) {
     cout << "None" << endl;
   } else {
