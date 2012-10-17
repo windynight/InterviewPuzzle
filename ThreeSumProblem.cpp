@@ -5,9 +5,12 @@
  Print all the possible result
  
  Solution:
- Time complexity is O(n*n), extra space complexity is O(n)
+ Time complexity is O(n*n*logn), extra space complexity is O(n)
  1. hash all the value of each num in the array
  2. for each node a[i], check if there are some pair of numbers whose sum is key - a[i]
+ 
+ PS: as look up in map<int, int> spends O(logn) time complexity, 
+ when hash table is used, the solution's time complexity could be O(n*n)
  
  Sample Input:
  5 3
