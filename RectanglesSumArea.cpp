@@ -15,6 +15,8 @@ using namespace std;
 typedef struct PointT {
   double data;
   int index;
+  PointT () {}
+  PointT (int d, int i) : data(d), index(i) {};
 }Point;
 
 int cmp(const Point a, const Point b) 
@@ -28,25 +30,19 @@ void solve(int n, int kase)
   Point px[2 * N], py[2 * N];
  
   for (int i = 0; i < n; i ++) {
-    px[2 * i] = Point();
-    px[2 * i + 1] = Point();
-    py[2 * i] = Point();
-    py[2 * i + 1] = Point();
-    
-    px[2 * i].index = 2 * i;
-    px[2 * i + 1].index = 2 * i + 1;
-    py[2 * i].index = 2 * i;
-    py[2 * i + 1].index = 2 * i + 1;
-    
-    cin >> px[2 * i].data >> py[2 * i].data >> px[2 * i + 1].data >> py[2 * i + 1].data;
-    
-    if (px[2 * i].data > px[2 * i + 1].data) {
-      swap(px[2 * i].data, px[2 * i + 1].data);
+    double a, b, c, d;
+    cin >> a >> b >> c >> d;
+    if (a > c) {
+      swap(a, c);
+    }
+    if (b > d) {
+      swap(b, d);
     }
     
-    if (py[2 * i].data > py[2 * i + 1].data) {
-      swap(py[2 * i].data, py[2 * i + 1].data);
-    }
+    px[2 * i] = Point(a, 2 * i);
+    px[2 * i + 1] = Point(c, 2 * i + 1);
+    py[2 * i] = Point(b, 2 * i);
+    py[2 * i + 1] = Point(d, 2 * i + 1);
   }
   
   sort(px, px + 2 * n, cmp);
