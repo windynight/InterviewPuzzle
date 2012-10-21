@@ -58,7 +58,7 @@ bool Graph::isReachable(int s, int d)
   
   bool *visited = new bool[V];
   for (int i = 0; i < V; i ++) {
-    visited[i] = false;
+    visited[i] = false; // to avoid circle...
   }
   
   list<int> q;
